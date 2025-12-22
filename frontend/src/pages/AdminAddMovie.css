@@ -1,0 +1,222 @@
+.admin-page {
+  padding: 2rem;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.admin-card {
+  max-width: 1000px;
+  margin: auto;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+h2, h3 {
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  color: #374151;
+}
+
+input, textarea {
+  padding: 0.6rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.submit-btn {
+  margin-top: 0.6rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: #6366f1;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.cancel-btn {
+  background: #64748b;
+}
+
+.table-wrapper {
+  margin-top: 1rem;
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.movie-table {
+  width: 100%;
+  border-collapse: collapse;
+    table-layout: fixed;
+  font-size: 0.9rem;
+}
+
+.movie-table thead {
+  background: #f8fafc;
+  position: sticky;
+  top: 0;
+}
+
+.movie-table th,
+.movie-table td {
+   padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;      /* ✅ force same alignment */
+  vertical-align: middle;
+  white-space: nowrap; 
+}
+
+.movie-table tr:hover {
+  background: #f9fafb;
+}
+
+.actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.actions button {
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  border: none;
+  background: #6366f1;
+  color: white;
+  cursor: pointer;
+}
+
+.actions .danger {
+  background: #ef4444;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+}
+
+.pagination button {
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  border: none;
+  background: #e5e7eb;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.pagination button.active {
+  background: #6366f1;
+  color: white;
+  font-weight: 600;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 1rem;
+  }
+
+  .admin-card {
+    padding: 1.2rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  input,
+  textarea {
+    font-size: 0.85rem;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+}
+
+/* =========================
+   TABLE → MOBILE VIEW
+========================= */
+
+@media (max-width: 640px) {
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .movie-table {
+    min-width: 650px; /* horizontal scroll instead of breaking UI */
+  }
+
+  .movie-table th,
+  .movie-table td {
+    padding: 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .actions button {
+    width: 100%;
+    font-size: 0.75rem;
+    padding: 0.35rem;
+  }
+}
+
+/* =========================
+   PAGINATION MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .pagination {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .pagination button {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.55rem;
+  }
+}
