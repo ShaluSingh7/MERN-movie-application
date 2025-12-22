@@ -2,13 +2,23 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 
+/* =========================
+   Custom Request Type
+========================= */
+export interface AuthRequest extends Request {
+  user?: any;
+}
+
+/* =========================
+   Protect Middleware
+========================= */
 export const protect = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    let token;
+    let token: string | undefined;
 
     if (
       req.headers.authorization &&
@@ -21,7 +31,10 @@ export const protect = async (
       return res.status(401).json({ message: "Not authorized, no token" });
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as { id: string };
 
     const user = await User.findById(decoded.id).select("-password");
 
@@ -29,19 +42,24 @@ export const protect = async (
       return res.status(401).json({ message: "User not found" });
     }
 
-    (req as any).user = user;
+    req.user = user; // ✅ clean typed assignment
     next();
   } catch (error) {
-    res.status(401).json({ message: "Not authorized, token failed" });
+    return res
+      .status(401)
+      .json({ message: "Not authorized, token failed" });
   }
 };
 
+/* =========================
+   Admin Middleware
+========================= */
 export const admin = (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
-  if ((req as any).user && (req as any).user.role === "admin") {
+  if (req.user && req.user.role === "admin") {
     next();
   } else {
     res.status(403).json({ message: "Admin access denied" });
