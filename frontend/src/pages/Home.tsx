@@ -130,23 +130,22 @@ function Home() {
               <div key={movie._id} className="movie-card">
                 
                 {/* Poster */}
-                <div className="movie-poster">
-                  <img src={movie.image} alt={movie.title} />
-                </div>
+               {/* Poster */}
+<div className="movie-poster">
+  <img src={movie.image} alt={movie.title} />
+  <span className="poster-rating">⭐ {movie.imDbRating}</span>
+</div>
 
-                {/* Title + Rating */}
-                <div className="movie-header">
-                  <h2 className="movie-title">{movie.title}</h2>
-                  <span className="rating-badge">
-                    {movie.imDbRating}
-                  </span>
-                </div>
+{/* Title */}
+<h2 className="movie-title">{movie.title}</h2>
+
 
                 {/* Year */}
                 <div className="movie-meta">
-                  <span className="release-year">
-                    📅 {movie.year}
-                  </span>
+                 <span className="release-year">
+  {movie.year}
+</span>
+
                 </div>
               </div>
             ))}
