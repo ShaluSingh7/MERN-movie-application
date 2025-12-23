@@ -1,20 +1,62 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IMovie extends Document {
+  imdbId: number;
+  rank: number;
   title: string;
-  description: string;
+  fullTitle: string;
+  year: number;
+  image: string;
+  crew: string;
   rating: number;
-  releaseDate: Date;
-  duration: number;
+  ratingCount: number;
 }
 
 const MovieSchema: Schema<IMovie> = new Schema(
   {
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    rating: { type: Number, required: true },
-    releaseDate: { type: Date, required: true },
-    duration: { type: Number, required: true }
+    imdbId: {
+      type: Number,
+      required: true,
+      unique: true
+    },
+
+    rank: {
+      type: Number,
+      required: true
+    },
+
+    title: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    fullTitle: {
+      type: String
+    },
+
+    year: {
+      type: Number,
+      required: true
+    },
+
+    image: {
+      type: String,
+      required: true
+    },
+
+    crew: {
+      type: String
+    },
+
+    rating: {
+      type: Number,
+      required: true
+    },
+
+    ratingCount: {
+      type: Number
+    }
   },
   { timestamps: true }
 );

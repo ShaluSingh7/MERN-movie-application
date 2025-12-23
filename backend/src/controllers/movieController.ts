@@ -1,39 +1,27 @@
 import { Request, Response } from "express";
 import Movie from "../models/Movie";
 
-/**
- * GET all movies
- * Supports:
- *  - Search: ?q=keyword
- *  - Sort:   ?sortBy=rating&order=desc
- */
 export const getMovies = async (req: Request, res: Response) => {
   try {
     const { q, sortBy, order } = req.query;
 
-    /* =========================
-       SEARCH FILTER
-    ========================== */
     const filter: any = {};
 
     if (q && typeof q === "string") {
       filter.$or = [
         { title: { $regex: q, $options: "i" } },
-        { description: { $regex: q, $options: "i" } }
+        { fullTitle: { $regex: q, $options: "i" } },
+        { crew: { $regex: q, $options: "i" } }
       ];
     }
-
-    /* =========================
-       SORT LOGIC
-    ========================== */
     const sort: any = {};
 
     if (sortBy && typeof sortBy === "string") {
       const allowedFields = [
         "title",
         "rating",
-        "releaseDate",
-        "duration"
+        "year",
+        "rank"
       ];
 
       if (!allowedFields.includes(sortBy)) {
@@ -42,13 +30,9 @@ export const getMovies = async (req: Request, res: Response) => {
         });
       }
 
-      // default descending if not provided
       sort[sortBy] = order === "asc" ? 1 : -1;
     }
 
-    /* =========================
-       FETCH MOVIES
-    ========================== */
     const movies = await Movie.find(filter).sort(sort);
 
     res.status(200).json(movies);
@@ -60,9 +44,7 @@ export const getMovies = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * ADD movie (ADMIN)
- */
+
 export const addMovie = async (req: Request, res: Response) => {
   try {
     const movie = await Movie.create(req.body);
@@ -75,9 +57,7 @@ export const addMovie = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * UPDATE movie (ADMIN)
- */
+
 export const updateMovie = async (req: Request, res: Response) => {
   try {
     const updatedMovie = await Movie.findByIdAndUpdate(
@@ -101,9 +81,7 @@ export const updateMovie = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * DELETE movie (ADMIN)
- */
+
 export const deleteMovie = async (req: Request, res: Response) => {
   try {
     const deletedMovie = await Movie.findByIdAndDelete(req.params.id);

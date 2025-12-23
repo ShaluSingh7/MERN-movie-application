@@ -20,11 +20,11 @@ function Home() {
   const [searchText, setSearchText] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
 
-  // ✅ Applied filters
+
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("");
 
-  // 📄 Pagination
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // 3x3 grid
 
@@ -58,7 +58,7 @@ function Home() {
   const applyFilters = () => {
     setQuery(searchText);
     setSort(selectedSort);
-    setCurrentPage(1); // 🔥 reset page
+    setCurrentPage(1); 
   };
 
   /* ================= Pagination logic ================= */
@@ -103,7 +103,7 @@ function Home() {
         <h1>Movies</h1>
       </header>
 
-      {/* 🔥 Search + Sort */}
+
       <div className="search-sort-bar">
         <input
           className="search-input"
@@ -160,7 +160,7 @@ function Home() {
             ))}
           </div>
 
-          {/* 📄 Pagination */}
+      
           {totalPages > 1 && (
             <div className="pagination">
               <button
