@@ -109,7 +109,7 @@ function Home() {
           <option value="">Sort By</option>
           <option value="title-asc">Name (A–Z)</option>
           <option value="title-desc">Name (Z–A)</option>
-          <option value="imDbRating-desc">Rating (High → Low)</option>
+          {/* <option value="imDbRating-desc">Rating (High → Low)</option> */}
           <option value="year-desc">Year (Newest)</option>
         </select>
 
