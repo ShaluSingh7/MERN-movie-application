@@ -5,28 +5,26 @@ import "./Home.css";
 interface Movie {
   _id: string;
   title: string;
-  description: string;
-  rating: number;
-  releaseDate: string;
-  duration: number;
+  year: number;
+  image: string;
+  imDbRating: number;
 }
 
 function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // 🔍 Search & sort input states
+  /* Search & Sort (controlled + apply) */
   const [searchText, setSearchText] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
-
 
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("");
 
-
+  /* Pagination */
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; // 3x3 grid
+  const itemsPerPage = 9;
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -43,10 +41,10 @@ function Home() {
           params.order = order;
         }
 
-        const response = await axios.get("/movies", { params });
-        setMovies(response.data);
+        const res = await axios.get("/movies", { params });
+        setMovies(res.data);
       } catch {
-        setError("Unable to load movies. Please check server.");
+        setError("Failed to load movies. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -56,24 +54,18 @@ function Home() {
   }, [query, sort]);
 
   const applyFilters = () => {
-    setQuery(searchText);
+    setQuery(searchText.trim());
     setSort(selectedSort);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
-  /* ================= Pagination logic ================= */
+  /* Pagination logic */
   const totalPages = Math.ceil(movies.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedMovies = movies.slice(
     startIndex,
     startIndex + itemsPerPage
   );
-
-  const getYear = (date: string) =>
-    new Date(date).getFullYear().toString();
-
-  const formatDuration = (min: number) =>
-    min >= 60 ? `${Math.floor(min / 60)}h ${min % 60}m` : `${min}m`;
 
   if (loading) {
     return (
@@ -90,7 +82,7 @@ function Home() {
     return (
       <div className="home-container">
         <div className="error-message">
-          <h2>Oops!</h2>
+          <h2>Error</h2>
           <p>{error}</p>
         </div>
       </div>
@@ -103,11 +95,11 @@ function Home() {
         <h1>Movies</h1>
       </header>
 
-
+      {/* Search + Sort */}
       <div className="search-sort-bar">
         <input
           className="search-input"
-          placeholder="Search movies..."
+          placeholder="Search by movie title..."
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
@@ -120,9 +112,8 @@ function Home() {
           <option value="">Sort By</option>
           <option value="title-asc">Name (A–Z)</option>
           <option value="title-desc">Name (Z–A)</option>
-          <option value="rating-desc">Rating (High → Low)</option>
-          <option value="releaseDate-desc">Release (Newest)</option>
-          <option value="duration-asc">Duration (Short → Long)</option>
+          <option value="imDbRating-desc">Rating (High → Low)</option>
+          <option value="year-desc">Year (Newest)</option>
         </select>
 
         <button className="apply-btn" onClick={applyFilters}>
@@ -130,6 +121,7 @@ function Home() {
         </button>
       </div>
 
+      {/* Movies */}
       {paginatedMovies.length === 0 ? (
         <div className="empty-state">
           <p>No movies found.</p>
@@ -139,28 +131,29 @@ function Home() {
           <div className="movies-grid">
             {paginatedMovies.map((movie) => (
               <div key={movie._id} className="movie-card">
+
+                {/* IMAGE */}
+                <div className="movie-poster">
+                  <img src={movie.image} alt={movie.title} />
+                </div>
+
+                {/* TITLE + RATING */}
                 <div className="movie-header">
                   <h2 className="movie-title">{movie.title}</h2>
                   <span className="rating-badge">
-                    {movie.rating.toFixed(1)}
+                    {movie.imDbRating}
                   </span>
                 </div>
 
-                <p className="movie-description">{movie.description}</p>
-
+                {/* META */}
                 <div className="movie-meta">
-                  <span className="release-year">
-                    {getYear(movie.releaseDate)}
-                  </span>
-                  <span className="duration">
-                    {formatDuration(movie.duration)}
-                  </span>
+                  <span className="release-year">📅 {movie.year}</span>
                 </div>
               </div>
             ))}
           </div>
 
-      
+          {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination">
               <button
