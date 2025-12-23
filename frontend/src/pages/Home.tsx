@@ -137,17 +137,17 @@ function Home() {
                   <img src={movie.image} alt={movie.title} />
                 </div>
 
-                {/* TITLE + RATING */}
-                <div className="movie-header">
-                  <h2 className="movie-title">{movie.title}</h2>
-                  <span className="rating-badge">
-                    {movie.imDbRating}
-                  </span>
-                </div>
+                <div className="movie-poster">
+  <img src={movie.image} alt={movie.title} />
+  <span className="poster-rating">⭐ {movie.imDbRating}</span>
+</div>
+
+<h2 className="movie-title">{movie.title}</h2>
+
 
                 {/* META */}
                 <div className="movie-meta">
-                  <span className="release-year">📅 {movie.year}</span>
+               
                 </div>
               </div>
             ))}
