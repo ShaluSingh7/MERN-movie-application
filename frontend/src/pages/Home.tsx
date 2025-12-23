@@ -7,7 +7,7 @@ interface Movie {
   title: string;
   year: number;
   image: string;
-  imDbRating: number;
+  rating: number;
 }
 
 function Home() {
