@@ -133,7 +133,7 @@ function Home() {
                {/* Poster */}
 <div className="movie-poster">
   <img src={movie.image} alt={movie.title} />
-  <span className="poster-rating">⭐ {movie.imDbRating}</span>
+ <span className="poster-rating">⭐ {movie.rating}</span> 
 </div>
 
 {/* Title */}
