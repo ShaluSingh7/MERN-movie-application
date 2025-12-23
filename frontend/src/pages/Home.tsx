@@ -15,7 +15,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  /* Search & Sort (controlled + apply) */
+  /* Search & Sort */
   const [searchText, setSearchText] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
 
@@ -44,7 +44,7 @@ function Home() {
         const res = await axios.get("/movies", { params });
         setMovies(res.data);
       } catch {
-        setError("Failed to load movies. Please try again.");
+        setError("Failed to load movies.");
       } finally {
         setLoading(false);
       }
@@ -59,13 +59,10 @@ function Home() {
     setCurrentPage(1);
   };
 
-  /* Pagination logic */
+  /* Pagination */
   const totalPages = Math.ceil(movies.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedMovies = movies.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const paginatedMovies = movies.slice(startIndex, startIndex + itemsPerPage);
 
   if (loading) {
     return (
@@ -99,7 +96,7 @@ function Home() {
       <div className="search-sort-bar">
         <input
           className="search-input"
-          placeholder="Search by movie title..."
+          placeholder="Search movies..."
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
@@ -121,7 +118,7 @@ function Home() {
         </button>
       </div>
 
-      {/* Movies */}
+      {/* Movie Grid */}
       {paginatedMovies.length === 0 ? (
         <div className="empty-state">
           <p>No movies found.</p>
@@ -131,13 +128,13 @@ function Home() {
           <div className="movies-grid">
             {paginatedMovies.map((movie) => (
               <div key={movie._id} className="movie-card">
-
-                {/* IMAGE */}
+                
+                {/* Poster */}
                 <div className="movie-poster">
                   <img src={movie.image} alt={movie.title} />
                 </div>
 
-                {/* TITLE + RATING */}
+                {/* Title + Rating */}
                 <div className="movie-header">
                   <h2 className="movie-title">{movie.title}</h2>
                   <span className="rating-badge">
@@ -145,9 +142,11 @@ function Home() {
                   </span>
                 </div>
 
-                {/* META */}
+                {/* Year */}
                 <div className="movie-meta">
-                  <span className="release-year">📅 {movie.year}</span>
+                  <span className="release-year">
+                    📅 {movie.year}
+                  </span>
                 </div>
               </div>
             ))}
